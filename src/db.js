@@ -3,8 +3,12 @@ const fs = require('fs');
 const path = require('path');
 const config = require('./config');
 
+const dbUrl = config.databaseUrl || '';
+const isCloudDb = dbUrl.includes('supabase') || dbUrl.includes('neon') || dbUrl.includes('render') || dbUrl.includes('amazonaws') || dbUrl.includes('sslmode=require');
+
 const pool = new Pool({
-  connectionString: config.databaseUrl,
+  connectionString: dbUrl,
+  ssl: isCloudDb ? { rejectUnauthorized: false } : false,
 });
 
 pool.on('error', (err) => {

@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "node src/server.js",
     "start": "node src/server.js",
+    "worker": "node src/worker.js",
     "db:init": "psql -f database/schema.sql"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.7",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
