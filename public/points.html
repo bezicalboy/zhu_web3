@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Points & Swap - ZHU Web3</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .swap-box {
+      background: var(--bg-canvas);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-dark);
+      margin: 1.25rem 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content">
+      <div class="container" style="max-width: 800px;">
+        <h2>Points Economy & 1-Way Swap</h2>
+        <p class="text-secondary">Earn points from daily rewards, games, and referrals, then swap them into real ZHU tokens.</p>
+
+        <!-- Test ZHU Faucet Card -->
+        <div class="card" style="margin-top: 1.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3>Testnet ZHU Faucet</h3>
+              <p class="text-secondary" style="font-size: 0.85rem; margin-top: 0.25rem;">Claim +10 ZHU test tokens directly to your wallet for testing games.</p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button type="button" id="faucet-claim-btn" class="btn" style="padding: 0.75rem 1.25rem;">
+                Claim +10 ZHU
+              </button>
+              <button type="button" onclick="window.location.href='/dice.html'" class="btn btn-secondary" style="padding: 0.75rem 1.25rem;">
+                Go to Dice Game ➔
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem;">
+          <!-- Points Balance Card -->
+          <div class="card" style="text-align: center;">
+            <p class="text-secondary" style="text-transform: uppercase; font-size: 0.8rem; font-weight: 700;">Your Points Balance</p>
+            <h1 style="font-size: 2.75rem; margin: 0.75rem 0; color: var(--primary-blue);" id="points-bal-display">
+              0 <span style="font-size: 1.35rem; color: var(--text-secondary); font-weight: 500;">PTS</span>
+            </h1>
+            <button type="button" id="daily-claim-btn" class="btn" style="width: 100%;">
+              Claim Daily +50 PTS
+            </button>
+            <div id="daily-msg" class="text-secondary" style="font-size: 0.75rem; margin-top: 0.5rem; font-weight: 500;"></div>
+          </div>
+
+          <!-- How to Earn Points Card -->
+          <div class="card">
+            <h4>How to Earn Points</h4>
+            <ul style="list-style-type: none; margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.875rem;">
+              <li><strong>Daily Login:</strong> Claim +50 PTS every 24 hours</li>
+              <li><strong>Invite Friends:</strong> +100 PTS for every signup</li>
+              <li><strong>Play Dice:</strong> Earn +10 PTS per 1 ZHU wagered</li>
+              <li><strong>Spin Wheel:</strong> Win up to 500 PTS per spin</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 1-Way Swap Card -->
+        <div class="card" style="margin-top: 1.75rem;">
+          <h3>1-Way Swap: Points ➔ ZHU Token</h3>
+          <p class="text-secondary" style="font-size: 0.85rem; margin-top: 0.25rem;">Rate: <strong>1,000 Points = 1.0 ZHU</strong> (Minimum swap: 100 PTS)</p>
+
+          <div id="swap-error" class="alert alert-error" style="display: none; margin-top: 1rem;"></div>
+
+          <div class="swap-box">
+            <div class="input-group" style="margin-bottom: 1rem;">
+              <label for="swap-points-input">Points to Convert</label>
+              <input type="number" id="swap-points-input" class="input-control" placeholder="e.g. 1000" min="100" step="100">
+            </div>
+
+            <div style="text-align: center; font-weight: 800; font-size: 1.25rem; margin: 0.5rem 0;">➔</div>
+
+            <div class="input-group" style="margin-bottom: 0;">
+              <label>Estimated ZHU Received</label>
+              <input type="text" id="swap-zhu-output" class="input-control" value="0.0000 ZHU" readonly style="background: var(--bg-canvas); font-weight: 700; color: var(--primary-blue);">
+            </div>
+          </div>
+
+          <button type="button" id="execute-swap-btn" class="btn" style="width: 100%; padding: 0.85rem; font-size: 1.05rem;">
+            Swap Points to ZHU ➔
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/points.js"></script>
+</body>
+</html>

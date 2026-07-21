@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dice Game - ZHU Web3</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .dice-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    @media (max-width: 900px) {
+      .dice-container {
+        grid-template-columns: 1fr;
+      }
+    }
+    .slider-box {
+      background: var(--bg-canvas);
+      padding: 1.25rem;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-dark);
+      margin: 1.25rem 0;
+    }
+    .slider-input {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      outline: none;
+      accent-color: var(--primary-blue);
+    }
+    .stat-box {
+      background: var(--bg-canvas);
+      padding: 0.85rem;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-dark);
+      text-align: center;
+    }
+
+    /* 3D Rolling Dice Animation & Track */
+    .dice-stage {
+      width: 90px;
+      height: 90px;
+      perspective: 400px;
+      margin: 1rem auto;
+    }
+    .dice-cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .dice-cube.rolling {
+      animation: tumble 0.6s infinite linear;
+    }
+    .cube-face {
+      position: absolute;
+      width: 90px;
+      height: 90px;
+      background: #ffffff;
+      border: 3px solid var(--border-dark);
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--text-primary);
+    }
+    .face-front  { transform: rotateY(0deg) translateZ(45px); }
+    .face-back   { transform: rotateY(180deg) translateZ(45px); }
+    .face-right  { transform: rotateY(90deg) translateZ(45px); }
+    .face-left   { transform: rotateY(-90deg) translateZ(45px); }
+    .face-top    { transform: rotateX(90deg) translateZ(45px); }
+    .face-bottom { transform: rotateX(-90deg) translateZ(45px); }
+
+    @keyframes tumble {
+      0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+      100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+    }
+
+    /* Result Bar Track */
+    .track-bar {
+      width: 100%;
+      height: 14px;
+      background: var(--bg-canvas);
+      border: 2px solid var(--border-dark);
+      border-radius: var(--radius-full);
+      position: relative;
+      margin: 1.25rem 0;
+      overflow: hidden;
+    }
+    .track-fill {
+      height: 100%;
+      background: var(--primary-blue);
+      transition: width 0.3s ease;
+    }
+    .track-marker {
+      position: absolute;
+      top: -3px;
+      width: 4px;
+      height: 20px;
+      background: var(--border-dark);
+      transform: translateX(-50%);
+    }
+
+    .result-modal {
+      font-size: 3.2rem;
+      font-weight: 800;
+      font-family: var(--font-heading);
+      margin: 0.25rem 0;
+    }
+    .win-text { color: var(--success); }
+    .lose-text { color: var(--danger); }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content">
+      <div class="container">
+        <h2>Provably Fair Dice Game</h2>
+        <p class="text-secondary">Set your target, choose Over/Under, and roll to win ZHU & Points.</p>
+
+        <div class="dice-container">
+          <!-- Game Controls Card -->
+          <div class="card">
+            <div id="error-alert" class="alert alert-error" style="display: none;"></div>
+
+            <!-- Currency Selection -->
+            <div class="input-group">
+              <label>Select Currency</label>
+              <div style="display: flex; gap: 0.75rem;">
+                <button type="button" id="currency-zhu" class="btn" style="flex: 1; padding: 0.5rem;">ZHU Token</button>
+                <button type="button" id="currency-points" class="btn btn-secondary" style="flex: 1; padding: 0.5rem;">Points</button>
+              </div>
+            </div>
+
+            <!-- Bet Amount -->
+            <div class="input-group">
+              <label for="bet-amount">Bet Amount (<span id="currency-label">ZHU</span>)</label>
+              <input type="number" id="bet-amount" class="input-control" value="1.0" step="0.1" min="0.1">
+              <div style="display: flex; gap: 0.5rem; margin-top: 0.5rem;">
+                <button type="button" class="btn btn-secondary quick-bet" data-amt="1">1</button>
+                <button type="button" class="btn btn-secondary quick-bet" data-amt="5">5</button>
+                <button type="button" class="btn btn-secondary quick-bet" data-amt="10">10</button>
+                <button type="button" class="btn btn-secondary quick-bet" data-amt="50">50</button>
+              </div>
+            </div>
+
+            <!-- Over / Under Toggle -->
+            <div class="input-group">
+              <label>Roll Direction</label>
+              <div style="display: flex; gap: 0.75rem;">
+                <button type="button" id="mode-over" class="btn" style="flex: 1; padding: 0.5rem;">Roll OVER</button>
+                <button type="button" id="mode-under" class="btn btn-secondary" style="flex: 1; padding: 0.5rem;">Roll UNDER</button>
+              </div>
+            </div>
+
+            <!-- Slider -->
+            <div class="slider-box">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-weight: 600;">
+                <span>Target: <strong id="target-disp" style="color: var(--primary-blue);">50</strong></span>
+                <span>Mode: <strong id="mode-disp">OVER 50</strong></span>
+              </div>
+              <input type="range" id="roll-slider" class="slider-input" min="15" max="85" value="50">
+            </div>
+
+            <!-- Live Stats Grid -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <div class="stat-box">
+                <div class="text-secondary" style="font-size: 0.75rem; font-weight: 600;">Win Chance</div>
+                <strong id="win-chance" style="font-size: 1.05rem;">50%</strong>
+              </div>
+              <div class="stat-box">
+                <div class="text-secondary" style="font-size: 0.75rem; font-weight: 600;">Multiplier</div>
+                <strong id="multiplier-disp" style="font-size: 1.05rem; color: var(--primary-blue);">1.96x</strong>
+              </div>
+              <div class="stat-box">
+                <div class="text-secondary" style="font-size: 0.75rem; font-weight: 600;">Payout</div>
+                <strong id="payout-disp" style="font-size: 1.05rem;">1.96</strong>
+              </div>
+            </div>
+
+            <button type="button" id="roll-btn" class="btn" style="width: 100%; padding: 0.85rem; font-size: 1.1rem;">
+              Roll Dice ➔
+            </button>
+          </div>
+
+          <!-- Roll Result & Info -->
+          <div class="card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <p class="text-secondary" style="text-transform: uppercase; letter-spacing: 0.05em; font-size: 0.8rem; font-weight: 700;">Latest Roll Result</p>
+            
+            <!-- 3D Tumbling Cube -->
+            <div class="dice-stage">
+              <div class="dice-cube" id="dice-cube">
+                <div class="cube-face face-front" id="face-front">?</div>
+                <div class="cube-face face-back">77</div>
+                <div class="cube-face face-right">33</div>
+                <div class="cube-face face-left">88</div>
+                <div class="cube-face face-top">12</div>
+                <div class="cube-face face-bottom">99</div>
+              </div>
+            </div>
+
+            <div id="roll-result-display" class="result-modal">-</div>
+
+            <!-- Result Position Track Bar -->
+            <div class="track-bar">
+              <div class="track-fill" id="track-fill" style="width: 50%;"></div>
+              <div class="track-marker" id="track-marker" style="left: 50%;"></div>
+            </div>
+
+            <div id="roll-status-text" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Click Roll to Play</div>
+            <div id="points-earned-text" class="text-secondary" style="font-size: 0.85rem;">Every bet earns +10 points per ZHU wagered</div>
+          </div>
+        </div>
+
+        <!-- History Table -->
+        <div class="card" style="margin-top: 1.75rem;">
+          <h3>Your Recent Rolls</h3>
+          <div class="table-container" style="margin-top: 1rem;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Result</th>
+                  <th>Target</th>
+                  <th>Bet</th>
+                  <th>Multiplier</th>
+                  <th>Payout</th>
+                  <th>Points Earned</th>
+                </tr>
+              </thead>
+              <tbody id="dice-history-body">
+                <tr><td colspan="6" style="text-align:center; color: var(--text-secondary);">No rolls yet</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/dice.js"></script>
+</body>
+</html>

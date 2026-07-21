@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dashboard - ZHU Web3</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content">
+      <div class="container">
+        
+        <!-- Top Header Bar -->
+        <div class="top-header">
+          <div>
+            <h2 id="welcome-msg" class="skeleton" style="display: block; min-height: 32px;">Loading...</h2>
+            <p class="text-secondary" style="font-size: 0.85rem; margin-top: 0.25rem;">Custodial Blockchain Settlement & Gaming Hub</p>
+          </div>
+          <div class="user-badge">
+            <div class="user-avatar" id="avatar-initial">U</div>
+            <span id="user-email-display" class="text-secondary">Loading...</span>
+          </div>
+        </div>
+        
+        <!-- Balances Grid -->
+        <div class="grid-2-col">
+          <!-- ZHU Balance Card -->
+          <div class="card">
+            <p class="text-secondary" style="margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; font-weight: 600;">Main Vault Balance</p>
+            <h1 class="balance-title">
+              <span id="balance-display" class="text-gradient">0.0000</span> <span style="font-size: 1.35rem; color: var(--text-secondary); font-weight: 500;">ZHU</span>
+            </h1>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button onclick="window.location.href='/deposit.html'" class="btn" style="flex: 1;">Deposit ZHU</button>
+              <button onclick="window.location.href='/withdraw.html'" class="btn btn-secondary" style="flex: 1;">Withdraw</button>
+            </div>
+          </div>
+
+          <!-- Points Balance Card -->
+          <div class="card">
+            <p class="text-secondary" style="margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.8rem; font-weight: 600;">Reward Points Economy</p>
+            <h1 class="balance-title" style="color: var(--primary-blue);">
+              <span id="points-display">0</span> <span style="font-size: 1.35rem; color: var(--text-secondary); font-weight: 500;">PTS</span>
+            </h1>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <button onclick="window.location.href='/points.html'" class="btn btn-gold" style="flex: 1;">Swap to ZHU</button>
+              <button onclick="window.location.href='/referral.html'" class="btn btn-secondary" style="flex: 1;">Invite Friends</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gaming & Feature Launchers -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+          <h3>Featured Games & Rewards</h3>
+          <span class="badge confirmed" style="font-size: 0.75rem;">Provably Fair</span>
+        </div>
+
+        <div class="grid-4-col">
+          <!-- Dice Game -->
+          <div class="card" style="cursor: pointer;" onclick="window.location.href='/dice.html'">
+            <h4 style="margin-bottom: 0.35rem;">Provably Fair Dice</h4>
+            <p class="text-secondary" style="font-size: 0.85rem; line-height: 1.4;">Bet ZHU or Points. Customize roll target from 1–95 up to 98x payout.</p>
+            <div style="margin-top: 1rem; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem;">Play Dice ➔</div>
+          </div>
+
+          <!-- Spin Wheel -->
+          <div class="card" style="cursor: pointer;" onclick="window.location.href='/spin.html'">
+            <h4 style="margin-bottom: 0.35rem;">Wheel of Fortune</h4>
+            <p class="text-secondary" style="font-size: 0.85rem; line-height: 1.4;">Spin using Points or ZHU. Instant prizes up to 20 ZHU Jackpot!</p>
+            <div style="margin-top: 1rem; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem;">Spin Wheel ➔</div>
+          </div>
+
+          <!-- 1-Way Swap -->
+          <div class="card" style="cursor: pointer;" onclick="window.location.href='/points.html'">
+            <h4 style="margin-bottom: 0.35rem;">Points & Daily Claim</h4>
+            <p class="text-secondary" style="font-size: 0.85rem; line-height: 1.4;">Claim +50 PTS daily and swap 1,000 points = 1 ZHU token.</p>
+            <div style="margin-top: 1rem; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem;">Claim & Swap ➔</div>
+          </div>
+
+          <!-- Referral -->
+          <div class="card" style="cursor: pointer;" onclick="window.location.href='/referral.html'">
+            <h4 style="margin-bottom: 0.35rem;">Referral Hub</h4>
+            <p class="text-secondary" style="font-size: 0.85rem; line-height: 1.4;">Earn 100 PTS per friend + 5% bonus from all their game wagers.</p>
+            <div style="margin-top: 1rem; color: var(--primary-blue); font-weight: 600; font-size: 0.85rem;">View Referrals ➔</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Table -->
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem;">
+            <h3>Recent Ledger Activity</h3>
+            <a href="/history.html" style="font-size: 0.85rem; font-weight: 600;">View Full History ➔</a>
+          </div>
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recent-tx-body">
+                <tr><td colspan="4" class="skeleton" style="height: 40px;"></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

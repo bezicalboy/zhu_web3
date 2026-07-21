@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Withdraw ZHU - ZHU Web3</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .amount-wrapper {
+      position: relative;
+      display: flex;
+    }
+    .amount-input {
+      flex: 1;
+      padding-right: 4rem;
+    }
+    .max-btn {
+      position: absolute;
+      right: 0.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 212, 170, 0.2);
+      color: var(--primary-teal);
+      border: none;
+      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .max-btn:hover {
+      background: rgba(0, 212, 170, 0.4);
+    }
+    .balance-disp {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content">
+      <div class="container" style="max-width: 600px;">
+        <h2>Withdraw ZHU</h2>
+        
+        <div class="card" style="margin-top: 1.5rem;">
+          <div class="balance-disp">
+            <span class="text-secondary">Available Balance</span>
+            <strong><span id="current-balance" class="text-gradient">0.0000</span> ZHU</strong>
+          </div>
+          
+          <div id="error-alert" class="alert alert-error" style="display: none;"></div>
+          
+          <form id="withdraw-form">
+            <div class="input-group">
+              <label for="address">Recipient Address (Base Sepolia)</label>
+              <input type="text" id="address" class="input-control" required placeholder="0x..." autocomplete="off">
+            </div>
+            
+            <div class="input-group">
+              <label for="amount">Amount (ZHU)</label>
+              <div class="amount-wrapper">
+                <input type="number" id="amount" class="input-control amount-input" required placeholder="0.00" step="0.0001" min="0.0001">
+                <button type="button" id="max-btn" class="max-btn">MAX</button>
+              </div>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 2rem;">
+              <span>Network Fee</span>
+              <span>Free (Covered by platform)</span>
+            </div>
+            
+            <button type="submit" class="btn" style="width: 100%;" id="withdraw-btn">
+              Confirm Withdrawal
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/withdraw.js"></script>
+</body>
+</html>

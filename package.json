@@ -1,0 +1,26 @@
+{
+  "name": "zhu-platform",
+  "version": "1.0.0",
+  "description": "Custodial Web3 ZHU Platform with HD Wallet Architecture",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "start": "node src/server.js",
+    "db:init": "psql -f database/schema.sql"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.4",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
+    "pg": "^8.13.1",
+    "qrcode": "^1.5.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

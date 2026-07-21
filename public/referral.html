@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Referrals - ZHU Web3</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    .link-box {
+      background: var(--bg-canvas);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="main-content">
+      <div class="container" style="max-width: 900px;">
+        <h2>Referral Program</h2>
+        <p class="text-secondary">Invite your friends to ZHU Web3 and earn points + 5% bonus from all their game wagers.</p>
+
+        <!-- Referral Link & Code Card -->
+        <div class="card" style="margin-top: 1.5rem;">
+          <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem;">
+            <div>
+              <label class="text-secondary" style="font-size: 0.85rem; font-weight: 600;">Your Referral Code</label>
+              <div class="link-box">
+                <strong id="ref-code-disp" style="font-size: 1.15rem; color: var(--primary-blue); font-family: var(--font-heading);">------</strong>
+                <button type="button" id="copy-code-btn" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Copy</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-secondary" style="font-size: 0.85rem; font-weight: 600;">Shareable Registration Link</label>
+              <div class="link-box">
+                <span id="ref-link-disp" style="font-family: monospace; font-size: 0.85rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Loading link...</span>
+                <button type="button" id="copy-link-btn" class="btn" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Copy Link</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Grid -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1.5rem;">
+          <div class="card" style="text-align: center;">
+            <p class="text-secondary" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Total Friends Invited</p>
+            <h1 id="stat-total-ref" style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--text-primary);">0</h1>
+          </div>
+
+          <div class="card" style="text-align: center;">
+            <p class="text-secondary" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Points Earned from Referrals</p>
+            <h1 id="stat-points-earned" style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--primary-blue);">0 PTS</h1>
+          </div>
+
+          <div class="card" style="text-align: center;">
+            <p class="text-secondary" style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Signup Bonus</p>
+            <h1 style="font-size: 2.5rem; margin-top: 0.5rem; color: var(--success);">+100 PTS</h1>
+          </div>
+        </div>
+
+        <!-- Referred Users List -->
+        <div class="card" style="margin-top: 1.75rem;">
+          <h3>Your Invited Friends</h3>
+          <div class="table-container" style="margin-top: 1rem;">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Joined Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="ref-list-body">
+                <tr><td colspan="3" style="text-align:center; color: var(--text-secondary);">No referrals yet. Share your link to start earning!</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+  <script src="/js/referral.js"></script>
+</body>
+</html>
